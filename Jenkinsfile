@@ -13,8 +13,7 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                apt install pipx
-                pipx install -r requirements.txt
+                pip install --user -r requirements.txt
                 '''
             }
         }
