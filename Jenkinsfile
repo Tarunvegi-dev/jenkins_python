@@ -2,8 +2,8 @@ pipeline {
     agent { 
         node {
             label 'docker-agent-python'
-            }
-      }
+        }
+    }
     triggers {
         pollSCM '* * * * *'
     }
@@ -13,9 +13,10 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                python3.11 -m venv myenv      
-                source myenv/bin/activate
-                pip install -r requirements.txt
+                python3.11 -m venv myenv
+                # Use dot notation instead of source for better compatibility
+                . myenv/bin/activate
+                pip install --no-cache-dir -r requirements.txt
                 '''
             }
         }
@@ -24,8 +25,9 @@ pipeline {
                 echo "Testing.."
                 sh '''
                 cd myapp
-                python3 hello.py
-                python3 hello.py --name=TarunVegi
+                # Explicitly use the virtual environment's Python
+                myenv/bin/python hello.py
+                myenv/bin/python hello.py --name=TarunVegi
                 '''
             }
         }
