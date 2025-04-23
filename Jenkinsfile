@@ -13,9 +13,9 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                sudo apt install python3.11-venv
-                python3 -m venv myenv 
-                source myenv/bin/activate  
+                pip install --user virtualenv
+                virtualenv -p python3.11 myenv
+                source myenv/bin/activate
                 pip install -r requirements.txt
                 '''
             }
