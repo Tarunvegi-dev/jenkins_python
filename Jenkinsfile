@@ -13,9 +13,15 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                # Fallback solution that works without system packages
-                python3.11 -m pip install --user virtualenv
-                python3.11 -m virtualenv venv
+                # First try standard venv
+                python3.11 -m venv venv || {
+                    echo "Standard venv failed, trying alternative approach"
+                    # Fallback 1: Use ensurepip bootstrap
+                    python3.11 -m ensurepip --user || true
+                    python3.11 -m venv --without-pip venv
+                    curl -sS https://bootstrap.pypa.io/get-pip.py | venv/bin/python
+                }
+                # Install requirements
                 venv/bin/pip install --no-cache-dir -r requirements.txt
                 '''
             }
