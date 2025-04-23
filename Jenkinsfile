@@ -15,7 +15,7 @@ pipeline {
                 cd myapp
                 python3 -m venv --without-pip venv
                 # Use dot notation instead of source for better compatibility
-                . myenv/bin/activate
+                . venv/bin/activate
                 pip install --no-cache-dir -r requirements.txt
                 '''
             }
