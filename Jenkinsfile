@@ -13,7 +13,7 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                python3.11 -m venv myenv
+                python3 -m venv --without-pip venv
                 # Use dot notation instead of source for better compatibility
                 . myenv/bin/activate
                 pip install --no-cache-dir -r requirements.txt
