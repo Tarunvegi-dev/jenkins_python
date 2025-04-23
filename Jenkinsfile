@@ -5,35 +5,36 @@ pipeline {
         }
     }
     triggers {
-       pollSCM '* * * * *' 
-   }
+        pollSCM '* * * * *'  // Keeping your original trigger
+    }
     stages {
-        stage('Setup') {
-            steps {
-                sh '''
-                # Ensure python3.11-venv is available (if system allows)
-                python3.11 -m ensurepip --default-pip || true
-                '''
-            }
-        }
         stage('Build') {
             steps {
+                echo "Building.."
                 sh '''
                 cd myapp
-                # Create fresh venv (forcing pip inclusion)
-                python3.11 -m venv --clear --upgrade-deps venv
-                # Use direct path to avoid activation issues
+                # Fallback solution that works without system packages
+                python3.11 -m pip install --user virtualenv
+                python3.11 -m virtualenv venv
                 venv/bin/pip install --no-cache-dir -r requirements.txt
                 '''
             }
         }
         stage('Test') {
             steps {
+                echo "Testing.."
                 sh '''
                 cd myapp
-                # Use venv's python directly
                 venv/bin/python hello.py
                 venv/bin/python hello.py --name=TarunVegi
+                '''
+            }
+        }
+        stage('Deliver') {
+            steps {
+                echo 'Deliver....'
+                sh '''
+                echo "Performing delivery operations..."
                 '''
             }
         }
