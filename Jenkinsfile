@@ -13,10 +13,8 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                pip install --user virtualenv --break-system-packages
-                virtualenv -p python3.11 myenv
-                source myenv/bin/activate
-                pip install -r requirements.txt
+                apt install pipx
+                pipx install -r requirements.txt
                 '''
             }
         }
