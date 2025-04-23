@@ -13,7 +13,9 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd myapp
-                pip install --user -r requirements.txt
+                python3.11 -m venv myenv      
+                source myenv/bin/activate
+                pip install -r requirements.txt
                 '''
             }
         }
